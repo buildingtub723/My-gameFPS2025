@@ -5,7 +5,7 @@ using UnityEngine.AI;
 [RequireComponent(typeof(TeamIdentity))]
 public class EnemyAI : MonoBehaviour
 {
-    public enum State { Patrolling, Chasing, Shooting }
+    public enum State { Patrolling, Chasing, Shooting, Dead }
 
     public float detectionRange = 25f;
     public float shootingRange = 12f;
@@ -40,6 +40,7 @@ public class EnemyAI : MonoBehaviour
 
     void Update()
     {
+        if (currentState == State.Dead) return;
         float distToPlayer = Vector3.Distance(transform.position, player.transform.position);
 
         if (distToPlayer <= detectionRange)
@@ -147,5 +148,11 @@ public class EnemyAI : MonoBehaviour
         }
 
         Debug.Log($"{name} shot at {player.name}");
+    }
+    public void Die()
+    {
+        currentState = State.Dead;
+        agent.isStopped = true;
+        this.enabled = false; // Optional: disable Update() completely
     }
 }

@@ -2,14 +2,42 @@ using UnityEngine;
 
 public class EnemyDeathHandler : MonoBehaviour, IDeathHandler
 {
-    public void HandleDeath(GameObject owner)
-    {
-        Debug.Log($"{gameObject.name} was killed by {owner.name}");
+    private bool hasDied = false;
 
+    public void HandleDeath(GameObject instigator)
+    {
+        if (hasDied) return;
+        hasDied = true;
+
+        Debug.Log($"{gameObject.name} was killed by {instigator.name}");
+
+        // Stop AI behavior if needed
+        EnemyAI ai = GetComponent<EnemyAI>();
+        if (ai != null)
+        {
+            ai.Die(); // You can define this to stop movement/shooting/etc.
+        }
+
+        // Play death animation
+        Animator animator = GetComponentInChildren<Animator>();
+        if (animator != null)
+        {
+            animator.SetTrigger("Die");
+        }
+
+        // Play death sound
+        EnemyAudioHandler audioHandler = GetComponent<EnemyAudioHandler>();
+        if (audioHandler != null)
+        {
+            audioHandler.PlayDeathSound();
+            audioHandler.TryDetachAudio(); // Detaches audio source so it can finish playing
+        }
+
+        // Drop loot once
         TryDropLoot();
 
-        // Destroy this enemy object
-        Destroy(gameObject);
+        // Destroy the whole enemy after a delay (give time for audio/animation)
+        Destroy(gameObject, 3f);
     }
 
     private void TryDropLoot()

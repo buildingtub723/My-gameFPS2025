@@ -2,21 +2,51 @@ using UnityEngine;
 
 public class EnemyAudioHandler : MonoBehaviour
 {
-    [SerializeField] private AudioSource audioSource;
+    public AudioClip hurtClip;
+    public AudioClip deathClip;
+    public float volume = 1f;
 
-    [Header("Clips")]
-    public AudioClip[] idleSounds;
-    public AudioClip aggroSound;
-    public AudioClip shootSound;
-    public AudioClip deathSound;
+    private AudioSource audioSource;
+    private Health health;
 
-    public void PlayIdle()
+    private void Awake()
     {
-        if (idleSounds.Length > 0)
-            audioSource.PlayOneShot(idleSounds[Random.Range(0, idleSounds.Length)]);
+        audioSource = GetComponent<AudioSource>();
+        health = GetComponent<Health>();
+
+        if (health != null)
+        {
+            health.OnDamageTaken += PlayHurtSound;
+        }
     }
 
-    public void PlayAggro() => audioSource.PlayOneShot(aggroSound);
-    public void PlayShoot() => audioSource.PlayOneShot(shootSound);
-    public void PlayDeath() => audioSource.PlayOneShot(deathSound);
+    private void PlayHurtSound(float damage)
+    {
+        if (hurtClip != null && audioSource != null)
+        {
+            audioSource.PlayOneShot(hurtClip, volume);
+        }
+    }
+    public bool TryDetachAudio()
+    {
+        if (audioSource == null) return false;
+
+        GameObject audioGO = new GameObject("TempDeathAudio");
+        audioGO.transform.position = transform.position;
+
+        AudioSource tempSource = audioGO.AddComponent<AudioSource>();
+        tempSource.clip = deathClip;
+        tempSource.volume = volume;
+        tempSource.Play();
+
+        Destroy(audioGO, deathClip.length + 0.5f);
+        return true;
+    }
+    public void PlayDeathSound()
+    {
+        if (deathClip != null && audioSource != null)
+        {
+            audioSource.PlayOneShot(deathClip, volume);
+        }
+    }
 }
