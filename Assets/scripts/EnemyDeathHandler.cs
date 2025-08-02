@@ -3,7 +3,13 @@ using UnityEngine;
 public class EnemyDeathHandler : MonoBehaviour, IDeathHandler
 {
     private bool hasDied = false;
+    private EnemyAnimatorController enemyAnimator;
 
+    private void Awake()
+    {
+        enemyAnimator = GetComponentInChildren<EnemyAnimatorController>();
+        //find and assigns the enemyanimator to tell it to run the deaht animations.
+    }
     public void HandleDeath(GameObject instigator)
     {
         if (hasDied) return;
@@ -19,10 +25,13 @@ public class EnemyDeathHandler : MonoBehaviour, IDeathHandler
         }
 
         // Play death animation
-        Animator animator = GetComponentInChildren<Animator>();
-        if (animator != null)
+        if (enemyAnimator != null)
         {
-            animator.SetTrigger("Die");
+            enemyAnimator.PlayDeath();
+        }
+        else
+        {
+            Debug.LogWarning("EnemyAnimatorController is missing!");
         }
 
         // Play death sound

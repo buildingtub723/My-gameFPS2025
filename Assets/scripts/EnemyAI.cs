@@ -19,6 +19,7 @@ public class EnemyAI : MonoBehaviour
 
     public GameObject bulletPrefab;
     public Transform firePoint;
+    [SerializeField] private EnemyAnimatorController enemyAnimator;
 
     private NavMeshAgent agent;
     private TeamIdentity myTeam;
@@ -43,16 +44,23 @@ public class EnemyAI : MonoBehaviour
         if (currentState == State.Dead) return;
         float distToPlayer = Vector3.Distance(transform.position, player.transform.position);
 
-        if (distToPlayer <= detectionRange)
+        if (enemyAnimator != null)
         {
-            if (distToPlayer <= shootingRange)
-            {
-                currentState = State.Shooting;
-            }
-            else
-            {
-                currentState = State.Chasing;
-            }
+            enemyAnimator.SetPatrolling(currentState == State.Patrolling);
+            enemyAnimator.SetMoving(agent.velocity.magnitude > 0.1f);
+        }
+
+        if (distToPlayer > detectionRange)
+        {
+            currentState = State.Patrolling;
+        }
+        else if (distToPlayer <= shootingRange)
+        {
+            currentState = State.Shooting;
+        }
+        else
+        {
+            currentState = State.Chasing;
         }
 
         switch (currentState)
@@ -118,6 +126,8 @@ public class EnemyAI : MonoBehaviour
             Shoot();
             lastFireTime = Time.time;
         }
+        if (enemyAnimator != null)
+            enemyAnimator.PlayShoot();
     }
 
     void PatrolToNewPoint()
@@ -153,6 +163,5 @@ public class EnemyAI : MonoBehaviour
     {
         currentState = State.Dead;
         agent.isStopped = true;
-        this.enabled = false; // Optional: disable Update() completely
     }
 }

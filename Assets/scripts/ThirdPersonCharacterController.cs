@@ -46,6 +46,8 @@ public class ThirdPersonCharacterController : MonoBehaviour
     private bool isGrounded;
     private void Awake()
     {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
         shootAction = InputActions.FindActionMap("Player").FindAction("Attack");
         m_moveAction = InputActions.FindActionMap("Player").FindAction("Move");
         m_lookAction = InputActions.FindActionMap("Player").FindAction("Look");
