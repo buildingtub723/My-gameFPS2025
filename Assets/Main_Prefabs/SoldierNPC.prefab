@@ -982,10 +982,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16e0d22fcb1a6ec41a10e7d1d3fc298f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  detectionRange: 30
+  detectionRange: 65
   shootingRange: 15
   fireRate: 1.5
-  patrolRadius: 45
+  patrolRadius: 200
   chaseUpdateInterval: 2
   chaseOffsetRadius: 4
   bulletPrefab: {fileID: 6249177378401926572, guid: 438e9dc9162f2394a8a5bc35af49b5cc, type: 3}
