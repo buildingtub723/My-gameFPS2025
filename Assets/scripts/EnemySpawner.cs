@@ -2,41 +2,28 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-    // The prefab of the enemy GameObject to spawn.
-    // Assign this in the Inspector.
-    public GameObject enemyPrefab;
-
-    // The time in seconds between each enemy spawn.
-    public float spawnInterval = 3f;
-
-    // The position where enemies will be spawned.
-    // If not set, enemies will spawn at the spawner's GameObject position.
-    public Vector3 spawnPositionOffset = Vector3.zero;
-
-    void Start()
+    void OnEnable()
     {
-        // Check if an enemy prefab is assigned to prevent errors.
-        if (enemyPrefab == null)
-        {
-            Debug.LogError("Enemy Prefab is not assigned to the EnemySpawner! Please assign a GameObject prefab in the Inspector.");
-            return;
-        }
-
-        // Begin spawning enemies repeatedly after an initial delay equal to the interval.
-        InvokeRepeating(nameof(SpawnEnemy), spawnInterval, spawnInterval);
+        if (SpawnManager.Instance != null)
+            SpawnManager.Instance.RegisterSpawner(this);
     }
 
-    /// <summary>
-    /// Instantiates an enemy at the calculated spawn position.
-    /// </summary>
-    void SpawnEnemy()
+    void OnDisable()
     {
-        // Calculate the world position where the enemy will spawn.
-        // This is the spawner's position plus the defined offset.
-        Vector3 spawnPoint = transform.position + spawnPositionOffset;
+        if (SpawnManager.Instance != null)
+            SpawnManager.Instance.UnregisterSpawner(this);
+    }
 
-        // Instantiate the enemy prefab at the calculated spawn point with no rotation.
-        Instantiate(enemyPrefab, spawnPoint, Quaternion.identity);
-        Debug.Log($"Spawned enemy at {spawnPoint}");
+    public void SpawnEnemy(GameObject prefab)
+    {
+        if (prefab != null)
+        {
+            Instantiate(prefab, transform.position, Quaternion.identity);
+            Debug.Log("Enemy spawned at: " + transform.position);
+        }
+        else
+        {
+            Debug.LogError("No prefab provided to EnemySpawner!");
+        }
     }
 }

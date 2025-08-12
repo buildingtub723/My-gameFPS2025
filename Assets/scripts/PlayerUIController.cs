@@ -14,15 +14,23 @@ public class PlayerUIController : MonoBehaviour
     [Header("Crosshair")]
     public GameObject crosshair;
 
+    [Header("Wave UI")]
+    public TextMeshProUGUI waveText;
+    public TextMeshProUGUI waveTimerText;
+    public TextMeshProUGUI levelTimerText;
+
     [Header("References")]
     public Health playerHealth;
     public Weapon_Controller_Script weapon;
     public ThirdPersonCharacterController playerController;
+    public SpawnManager spawnManager;
 
     void Update()
     {
         UpdateHealthUI();
         UpdateAmmoUI();
+        UpdateWaveUI();
+        UpdateLevelTimerUI();
     }
 
     void UpdateHealthUI()
@@ -36,7 +44,7 @@ public class PlayerUIController : MonoBehaviour
 
     void UpdateAmmoUI()
     {
-        if (playerController.currentWeapon != null)
+        if (playerController != null && playerController.currentWeapon != null)
         {
             ammoText.text = $"Ammo: {playerController.currentWeapon.ammoInMagazine}/{playerController.currentWeapon.ammoReserve}";
         }
@@ -46,7 +54,26 @@ public class PlayerUIController : MonoBehaviour
         }
     }
 
-    // You could use this later to hide/show crosshair
+    void UpdateWaveUI()
+    {
+        if (spawnManager != null)
+        {
+            waveText.text = $"Wave: {spawnManager.CurrentWave}";
+            waveTimerText.text = $"Next Wave In: {spawnManager.TimeUntilNextWave:0.0}s";
+        }
+    }
+
+    void UpdateLevelTimerUI()
+    {
+        if (spawnManager != null)
+        {
+            float timeLeft = spawnManager.LevelTimeRemaining;
+            int minutes = Mathf.FloorToInt(timeLeft / 60f);
+            int seconds = Mathf.FloorToInt(timeLeft % 60f);
+            levelTimerText.text = $"Time Left: {minutes:00}:{seconds:00}";
+        }
+    }
+
     public void SetCrosshairVisible(bool visible)
     {
         if (crosshair != null)
