@@ -10,19 +10,11 @@ public class WeaponSwitchingScript : MonoBehaviour
     private void Start()
     {
         characterController = GetComponent<ThirdPersonCharacterController>();
-
-        if (weaponHolder.childCount > 0)
-        {
-            SelectWeapon(currentWeaponIndex);
-        }
+        SelectWeapon(currentWeaponIndex);
     }
 
     private void Update()
     {
-        // If no weapons, don't try to switch
-        if (weaponHolder.childCount == 0)
-            return;
-
         float scroll = Input.mouseScrollDelta.y;
 
         if (scroll > 0f)
@@ -52,4 +44,3 @@ public class WeaponSwitchingScript : MonoBehaviour
         }
     }
 }
-
