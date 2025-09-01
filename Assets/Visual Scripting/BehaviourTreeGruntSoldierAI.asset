@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a686a47eee2fa44cb0a34b5d86e4d5e, type: 3}
+  m_Name: BehaviourTreeGruntSoldierAI
+  m_EditorClassIdentifier: 
+  _serializedGraph: '{"type":"NodeCanvas.BehaviourTrees.BehaviourTree","nodes":[{"_position":{"x":-16.0,"y":-15.0},"$type":"NodeCanvas.BehaviourTrees.Sequencer","$id":"0"},{"_action":{"actions":[{"radius":{"_value":25.0},"randomPoint":{"_name":"RandomPoint","_targetVariableID":"4ef6c259-f56c-442a-8627-bc8933fefe79"},"$type":"LoneWolf.AI.RandomNavMeshPointAction"},{"targetPosition":{"_name":"RandomPoint","_targetVariableID":"4ef6c259-f56c-442a-8627-bc8933fefe79"},"stoppingDistance":{"_value":0.5},"waitAfterArrival":{"_value":2.0},"$type":"LoneWolf.AI.MoveToVector3"}],"$type":"NodeCanvas.Framework.ActionList"},"_position":{"x":-259.0,"y":186.0},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"1"},{"dynamic":true,"_position":{"x":260.683,"y":161.4592},"$type":"NodeCanvas.BehaviourTrees.Parallel","$id":"2"},{"_action":{"player":{"_name":"Player","_targetVariableID":"5e094383-3670-4edd-b467-0dcde69f789a"},"$type":"FindPlayerAction"},"_position":{"x":151.3083,"y":280.2869},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"3"},{"_condition":{"target":{"_name":"Player","_targetVariableID":"5e094383-3670-4edd-b467-0dcde69f789a"},"maxDistance":{"_value":50.0},"layerMask":{"_value":{"value":127}},"awarnessDistance":{"_value":25.0},"viewAngle":{"_value":70.0},"$type":"NodeCanvas.Tasks.Conditions.CanSeeTarget"},"_position":{"x":297.0,"y":279.0},"$type":"NodeCanvas.BehaviourTrees.ConditionalEvaluator","$id":"4"},{"_action":{"actions":[{"player":{"_name":"Player","_targetVariableID":"5e094383-3670-4edd-b467-0dcde69f789a"},"$type":"FindPlayerAction"},{"target":{"_name":"Player","_targetVariableID":"5e094383-3670-4edd-b467-0dcde69f789a"},"speed":{"_value":6.0},"keepDistance":{"_value":0.1},"$type":"NodeCanvas.Tasks.Actions.MoveToGameObject"}],"$type":"NodeCanvas.Framework.ActionList"},"_position":{"x":291.4835,"y":393.151},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"5"}],"connections":[{"_sourceNode":{"$ref":"0"},"_targetNode":{"$ref":"1"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"2"},"_targetNode":{"$ref":"3"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"2"},"_targetNode":{"$ref":"4"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"4"},"_targetNode":{"$ref":"5"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"}],"canvasGroups":[{"name":"","rect":{"xMin":119.0,"yMin":118.0,"xMax":459.0,"yMax":529.0}},{"name":"Random
+    patrolling","rect":{"xMin":-374.0,"yMin":115.0,"xMax":102.0,"yMax":394.0}}],"localBlackboard":{"_variables":{"Player":{"_name":"Player","_id":"5e094383-3670-4edd-b467-0dcde69f789a","$type":"NodeCanvas.Framework.Variable`1[[UnityEngine.GameObject,
+    UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]"},"IsDead":{"_name":"IsDead","_id":"715d3cb6-a59f-44a3-9add-4cf53dab90db","$type":"NodeCanvas.Framework.Variable`1[[System.Boolean,
+    mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"},"DetectionRange":{"_name":"DetectionRange","_id":"c86648eb-29db-4b5e-93b2-3fdbee15192e","$type":"NodeCanvas.Framework.Variable`1[[System.Single,
+    mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"},"AttackRange":{"_name":"AttackRange","_id":"a210c03d-dc06-4edc-81ac-fd69f0460225","$type":"NodeCanvas.Framework.Variable`1[[System.Single,
+    mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"},"TargetPosition":{"_name":"TargetPosition","_id":"8fd637bd-f434-4559-85c5-e0353d8f4eb9","$type":"NodeCanvas.Framework.Variable`1[[UnityEngine.Vector3,
+    UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]"},"RandomPoint":{"_name":"RandomPoint","_id":"4ef6c259-f56c-442a-8627-bc8933fefe79","$type":"NodeCanvas.Framework.Variable`1[[UnityEngine.Vector3,
+    UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]"}}},"derivedData":{"repeat":true,"$type":"NodeCanvas.BehaviourTrees.BehaviourTree+DerivedSerializationData"}}'
+  _objectReferences: []
+  _graphSource:
+    _version: 3.33
+    _category: 
+    _comments: 
+    _translation: {x: 715, y: 172}
+    _zoomFactor: 1
+  _haltSerialization: 0
+  _externalSerializationFile: {fileID: 0}
