@@ -40,7 +40,7 @@ public class Weapon_Controller_Script : MonoBehaviour
     }
     private void Start()
     {
-        ammoInMagazine = magazineSize;
+        //ammoInMagazine = magazineSize;
     }
     private void Update()
     {
