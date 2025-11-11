@@ -1,59 +1,63 @@
 using UnityEngine;
-using UnityEngine.AI;
+using System.Collections;
+using NodeCanvas.BehaviourTrees;
 
 public class NpcSoldierDeathHandler : MonoBehaviour, IDeathHandler
 {
-    private bool hasDied = false;
-    private Animator animator;
-    private NavMeshAgent agent;
+    public float deathDelay = 5f;
+    private NpcSoldierAudioManager audioManager;
+    private BehaviourTreeOwner behaviourTree;
+    private UnityEngine.AI.NavMeshAgent agent;
     private Collider[] colliders;
-    private AudioSource audioSource;
-
-    [Header("Death Settings")]
-    public AudioClip deathClip;
-    public GameObject ragdollPrefab; // optional — if you want ragdoll spawning
-    public float destroyDelay = 5f;
+    private Health health;
+    private bool isDead = false;
 
     private void Awake()
     {
-        animator = GetComponentInChildren<Animator>();
-        agent = GetComponent<NavMeshAgent>();
+        audioManager = GetComponent<NpcSoldierAudioManager>();
+        behaviourTree = GetComponent<BehaviourTreeOwner>();
+        agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
         colliders = GetComponentsInChildren<Collider>();
-        audioSource = GetComponent<AudioSource>();
+        health = GetComponent<Health>();
     }
 
-    public void HandleDeath(GameObject instigator)
+    public void HandleDeath(GameObject npc)
     {
-        if (hasDied) return;
-        hasDied = true;
+        if (isDead) return;
+        isDead = true;
 
-        Debug.Log($"{gameObject.name} died (killed by {instigator.name})");
-
-        // Stop movement + disable navigation
-        if (agent != null) agent.enabled = false;
-
-        // Disable colliders (optional — prevents physics issues)
-        foreach (var col in colliders) col.enabled = false;
-
-        // Play death animation if available
-        if (animator != null)
+        //  Step 1: play the death sound first before disabling anything
+        if (audioManager != null)
         {
-            animator.SetTrigger("Die");
+            audioManager.PlayDeathSound();
         }
 
-        // Play death sound
-        if (audioSource != null && deathClip != null)
+        //  Step 2: stop all logic & movement
+        if (behaviourTree != null)
+            behaviourTree.enabled = false;
+
+        if (agent != null)
+            agent.enabled = false;
+
+        //  Step 3: disable colliders (optional: keep ragdoll if you use one)
+        foreach (var col in colliders)
+            col.enabled = false;
+
+        //  Step 4: disable other scripts like AI behaviour, shooting, etc.
+        MonoBehaviour[] scripts = GetComponents<MonoBehaviour>();
+        foreach (var s in scripts)
         {
-            audioSource.PlayOneShot(deathClip);
+            if (s != this && s != audioManager) // keep audio manager alive
+                s.enabled = false;
         }
 
-        // Optionally spawn ragdoll
-        if (ragdollPrefab != null)
-        {
-            Instantiate(ragdollPrefab, transform.position, transform.rotation);
-        }
+        //  Step 5: schedule destruction
+        StartCoroutine(DelayedDestroy());
+    }
 
-        // Finally destroy object after delay
-        Destroy(gameObject, destroyDelay);
+    private IEnumerator DelayedDestroy()
+    {
+        yield return new WaitForSeconds(deathDelay);
+        Destroy(gameObject);
     }
 }
