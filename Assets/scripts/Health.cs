@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Health : MonoBehaviour, IDamageable
@@ -17,6 +18,12 @@ public class Health : MonoBehaviour, IDamageable
     public event OnDied OnDeath;
 
     private bool isDead = false;
+
+    /* Respawn Checkpoint System */
+
+    [SerializeField] List<GameObject> checkpoints;
+
+    [SerializeField] Vector3 vectorPoint;
 
     private void Awake()
     {
@@ -45,6 +52,18 @@ public class Health : MonoBehaviour, IDamageable
         currentHealth = 0f;
         OnDeath?.Invoke(); // notify listeners (audio, fx, etc.)
         deathHandler?.HandleDeath(gameObject);
+    }
+
+    public void Respawn()
+    {
+        isDead = false;
+        currentHealth = maxHealth;
+
+        if (checkpoints.Count > 0)
+        {
+            GameObject lastCheckpoint = checkpoints[checkpoints.Count - 1];
+            transform.position = lastCheckpoint.transform.position + vectorPoint;
+        }
     }
 
     public void Heal(float amount)
