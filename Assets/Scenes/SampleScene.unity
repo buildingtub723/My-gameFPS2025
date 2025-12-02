@@ -1395,6 +1395,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 9140036880413541322, guid: 9352d3a54876fb44bb274a7639b4722e, type: 3}
+      propertyPath: walkspeed
+      value: 40
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

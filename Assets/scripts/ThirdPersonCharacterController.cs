@@ -9,6 +9,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
     private InputAction m_moveAction;
     private InputAction m_lookAction;
     private InputAction m_jumpAction;
+    private InputAction m_sprintAction;
     private InputAction shootAction;
 
     public Weapon_Controller_Script currentWeapon;
@@ -51,6 +52,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
         shootAction = InputActions.FindActionMap("Player").FindAction("Attack");
         m_moveAction = InputActions.FindActionMap("Player").FindAction("Move");
         m_lookAction = InputActions.FindActionMap("Player").FindAction("Look");
+        m_sprintAction = InputActions.FindActionMap("Player").FindAction("Sprint");
         m_jumpAction = InputActions.FindActionMap("Player").FindAction("Jump");
     }
 
@@ -60,6 +62,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
         m_moveAction.Enable();
         m_lookAction.Enable();
         m_jumpAction.Enable();
+        m_sprintAction.Enable();
     }
 
     private void OnDisable()
@@ -68,6 +71,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
         m_moveAction.Disable();
         m_lookAction.Disable();
         m_jumpAction.Disable();
+        m_sprintAction.Disable();
     }
 
     private void Update()
@@ -158,8 +162,15 @@ public class ThirdPersonCharacterController : MonoBehaviour
         // Smoothly interpolate the velocity
         currentMoveVelocity = Vector3.Lerp(currentMoveVelocity, targetVelocity, smoothFactor * Time.deltaTime);
 
-        // Apply movement
-        controller.Move(currentMoveVelocity * Time.deltaTime);
+        // Movement & Sprinting
+        if (m_sprintAction.IsPressed())
+        {
+            controller.Move(currentMoveVelocity * Time.deltaTime * 40f);
+        }
+        else
+        {
+            controller.Move(currentMoveVelocity * Time.deltaTime);
+        }
     }
 
     private void rotate()
