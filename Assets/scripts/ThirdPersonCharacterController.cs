@@ -165,7 +165,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
         // Movement & Sprinting
         if (m_sprintAction.IsPressed())
         {
-            controller.Move(currentMoveVelocity * Time.deltaTime * 40f);
+            controller.Move(currentMoveVelocity * Time.deltaTime * 20f);
         }
         else
         {
