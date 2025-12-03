@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -45,6 +46,13 @@ public class ThirdPersonCharacterController : MonoBehaviour
     private Vector3 velocity;
     private float rotationY;
     private bool isGrounded;
+
+
+
+    /* Interaction UI */
+    public TMP_Text interactionText;
+
+
     private void Awake()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -114,6 +122,17 @@ public class ThirdPersonCharacterController : MonoBehaviour
                     currentWeapon.StopFiring();
             }
         }
+
+        if(currentWeapon == null)
+        {
+            interactionText.text = $"Press R to reload";
+            interactionText.gameObject.SetActive(true);
+        }
+        else
+        {
+            interactionText.gameObject.SetActive(false);
+        }
+    
         if (Keyboard.current.rKey.wasPressedThisFrame && currentWeapon != null)
         {
             currentWeapon.Reload();
@@ -121,6 +140,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
         if (Keyboard.current.digit1Key.wasPressedThisFrame) SwitchWeapon(0);
         if (Keyboard.current.digit2Key.wasPressedThisFrame) SwitchWeapon(1);
     }
+
     private bool CheckIfGrounded()
     {
         // Raycast from just above the bottom of the controller downward
