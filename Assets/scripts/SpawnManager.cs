@@ -1,6 +1,8 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using System.Threading;
 
 public class SpawnManager : MonoBehaviour
 {
@@ -17,7 +19,9 @@ public class SpawnManager : MonoBehaviour
     public float difficultyIncreaseRate = 1.2f;
 
     [Header("Level Timer")]
-    public float levelDuration = 300f; // 5 minutes in seconds
+    public float levelDuration = 180f; // 3 minutes in seconds
+
+    public TMP_Text timerText;
 
     private int currentWave = 0;
     private bool isSpawning = false;
@@ -52,6 +56,8 @@ public class SpawnManager : MonoBehaviour
         if (levelTimeRemaining > 0f)
         {
             levelTimeRemaining -= Time.deltaTime;
+
+            timerText.text = $"Time Left: {Mathf.CeilToInt(levelTimeRemaining)}s";
         }
     }
 

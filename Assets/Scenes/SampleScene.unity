@@ -1448,6 +1448,7 @@ MonoBehaviour:
   timeBetweenWaves: 5
   difficultyIncreaseRate: 1.2
   levelDuration: 300
+  timerText: {fileID: 0}
 --- !u!4 &1449530997
 Transform:
   m_ObjectHideFlags: 0
@@ -1824,7 +1825,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3440720992925286404, guid: 9352d3a54876fb44bb274a7639b4722e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -70
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3513337535642303581, guid: 9352d3a54876fb44bb274a7639b4722e, type: 3}
       propertyPath: m_Layer
@@ -1888,7 +1889,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5265660379576049131, guid: 9352d3a54876fb44bb274a7639b4722e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -70
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5505191304206796314, guid: 9352d3a54876fb44bb274a7639b4722e, type: 3}
       propertyPath: m_Layer
@@ -3582,6 +3583,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3195042166215502344, guid: f70282bead7cfe21d9b8ba2a779b7910, type: 3}
+      propertyPath: interactionText
+      value: 
+      objectReference: {fileID: 1451532354}
     - target: {fileID: 8154818323642955640, guid: f70282bead7cfe21d9b8ba2a779b7910, type: 3}
       propertyPath: m_Name
       value: WeaponShotgunPickable
