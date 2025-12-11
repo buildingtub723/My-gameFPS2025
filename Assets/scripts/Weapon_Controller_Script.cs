@@ -2,7 +2,8 @@ using UnityEngine;
 public enum FireMode
 {
     SemiAuto,
-    FullAuto
+    FullAuto,
+    OneShot
 }
 
 public class Weapon_Controller_Script : MonoBehaviour
@@ -50,6 +51,11 @@ public class Weapon_Controller_Script : MonoBehaviour
             {
                 Fire(); // Call fire internally for full auto
             }
+        }
+        else if (fireMode == FireMode.OneShot && isFiring && !isReloading && ammoInMagazine > 0)
+        {
+            Fire();
+            isFiring = false; // Reset firing state after one shot
         }
     }
     public void StartFiring()
