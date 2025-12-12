@@ -7728,14 +7728,41 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4835790315219124129, guid: 9352d3a54876fb44bb274a7639b4722e, type: 3}
+      propertyPath: m_Size.z
+      value: 2.0945847
+      objectReference: {fileID: 0}
+    - target: {fileID: 4835790315219124129, guid: 9352d3a54876fb44bb274a7639b4722e, type: 3}
+      propertyPath: m_Center.x
+      value: 0.000000003483554
+      objectReference: {fileID: 0}
+    - target: {fileID: 4835790315219124129, guid: 9352d3a54876fb44bb274a7639b4722e, type: 3}
+      propertyPath: m_Center.z
+      value: 0.5472925
+      objectReference: {fileID: 0}
     - target: {fileID: 5265660379576049131, guid: 9352d3a54876fb44bb274a7639b4722e, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5534159259656959868, guid: 9352d3a54876fb44bb274a7639b4722e, type: 3}
+      propertyPath: m_AnimatePhysics
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9140036880413541322, guid: 9352d3a54876fb44bb274a7639b4722e, type: 3}
+      propertyPath: gunAnimator
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 9140036880413541322, guid: 9352d3a54876fb44bb274a7639b4722e, type: 3}
+      propertyPath: 'availableWeapons.Array.data[0]'
+      value: 
+      objectReference: {fileID: 982377813}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8552629084262952535, guid: 9352d3a54876fb44bb274a7639b4722e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 982377813}
   m_SourcePrefab: {fileID: 100100000, guid: 9352d3a54876fb44bb274a7639b4722e, type: 3}
 --- !u!1 &488774515
 GameObject:
@@ -15327,6 +15354,43 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 982290080}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &982377807 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8552629084262952535, guid: 9352d3a54876fb44bb274a7639b4722e, type: 3}
+  m_PrefabInstance: {fileID: 482392225}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &982377809 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5534159259656959868, guid: 9352d3a54876fb44bb274a7639b4722e, type: 3}
+  m_PrefabInstance: {fileID: 482392225}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &982377813
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 982377807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a0510007a2bbc84caf427534e42f9d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bulletPrefab: {fileID: 0}
+  firePoint: {fileID: 0}
+  bulletSpeed: 20
+  fireRate: 0.1
+  spreadAngle: 1
+  pelletCount: 1
+  magazineSize: 30
+  ammoInMagazine: 0
+  ammoReserve: 90
+  reloadTime: 2
+  animator: {fileID: 982377809}
+  weaponType: Melee
+  fireMode: 3
+  weaponAudio: {fileID: 0}
+  melee: {fileID: 982377807}
 --- !u!1001 &983659798
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17156,10 +17220,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 789413719}
     m_Modifications:
-    - target: {fileID: 1044195209172265607, guid: fb04f9b2f759aad8ca91f65959ec4066, type: 3}
-      propertyPath: weaponType
-      value: Grenade
-      objectReference: {fileID: 0}
     - target: {fileID: 1623352631377946504, guid: fb04f9b2f759aad8ca91f65959ec4066, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -17207,10 +17267,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6881477684215633180, guid: fb04f9b2f759aad8ca91f65959ec4066, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1481030190}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fb04f9b2f759aad8ca91f65959ec4066, type: 3}
 --- !u!4 &1074479587 stripped
 Transform:
@@ -22710,37 +22767,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1473900765}
   m_Mesh: {fileID: -364370986481232535, guid: be615b711dda2ad458b5d110e950fbd5, type: 3}
---- !u!1 &1481030184 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6881477684215633180, guid: fb04f9b2f759aad8ca91f65959ec4066, type: 3}
-  m_PrefabInstance: {fileID: 1074479586}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1481030190
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1481030184}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a0510007a2bbc84caf427534e42f9d8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bulletPrefab: {fileID: 6881477684215633180, guid: fb04f9b2f759aad8ca91f65959ec4066, type: 3}
-  firePoint: {fileID: 1074479587}
-  bulletSpeed: 10.2
-  fireRate: 0.1
-  spreadAngle: 0.89
-  pelletCount: 1
-  magazineSize: 6
-  ammoInMagazine: 1
-  ammoReserve: 10
-  reloadTime: 2.79
-  animator: {fileID: 0}
-  weaponType: Grenade
-  fireMode: 2
-  weaponAudio: {fileID: 0}
 --- !u!1 &1489265922
 GameObject:
   m_ObjectHideFlags: 0

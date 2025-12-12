@@ -48,11 +48,8 @@ public class ThirdPersonCharacterController : MonoBehaviour
     private bool isGrounded;
 
 
-
     /* Interaction UI */
     public TMP_Text interactionText;
-
-    public GameObject melee;
 
 
     private void Awake()
@@ -123,23 +120,16 @@ public class ThirdPersonCharacterController : MonoBehaviour
                 else
                     currentWeapon.StopFiring();
             }
-        }
-
-        if(currentWeapon == null)
-        {
-            melee.SetActive(true);
-
-            if (currentWeapon.fireMode == FireMode.OneShot)
+            else if (currentWeapon.fireMode == FireMode.OneShot)
             {
-                if(shootAction.WasPressedThisFrame())
-                {
-                    gunAnimator.SetTrigger("Hit");
-                }
+                if (shootAction.WasPressedThisFrame())
+                    currentWeapon.Fire();
             }
-        }
-        else
-        {
-            melee.SetActive(false);
+            else if (currentWeapon.fireMode == FireMode.Melee)
+            {
+                if (shootAction.WasPressedThisFrame())
+                    currentWeapon.Hit();
+            }
         }
     
         if (Keyboard.current.rKey.wasPressedThisFrame && currentWeapon != null)
