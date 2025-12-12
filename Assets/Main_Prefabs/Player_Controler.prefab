@@ -28,7 +28,8 @@ Transform:
   m_LocalPosition: {x: 0, y: -0.413, z: -0.241}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 7205504876961983248}
   m_Father: {fileID: 5698322793478126369}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &295379662097449829
@@ -139,6 +140,37 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &1637161631992428877
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3233964873210133085}
+  m_Layer: 0
+  m_Name: Punch
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3233964873210133085
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1637161631992428877}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0, y: 0, z: 0.207}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7205504876961983248}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1896501788094794650
 GameObject:
   m_ObjectHideFlags: 0
@@ -699,7 +731,6 @@ Transform:
   m_Children:
   - {fileID: 7226653587385151345}
   - {fileID: 5698322793478126369}
-  - {fileID: 7205504876961983248}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: -94.025, z: 0}
 --- !u!33 &8504177615850493746
@@ -819,9 +850,8 @@ MonoBehaviour:
   currentWeapon: {fileID: 0}
   availableWeapons:
   - {fileID: 0}
-  - {fileID: 0}
   controller: {fileID: 2122180652627290292}
-  gunAnimator: {fileID: 0}
+  gunAnimator: {fileID: 5534159259656959868}
   bulletPrefab: {fileID: 0}
   firePoint: {fileID: 3647100694039941008}
   weaponHolder: {fileID: 3647100694039941008}
@@ -840,6 +870,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   interactionText: {fileID: 0}
+  melee: {fileID: 8552629084262952535}
 --- !u!114 &7094951025068723055
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1972,13 +2003,14 @@ GameObject:
   - component: {fileID: 2607792172008781742}
   - component: {fileID: 8611051472523894075}
   - component: {fileID: 4835790315219124129}
+  - component: {fileID: 5534159259656959868}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: Melee
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &7205504876961983248
 Transform:
   m_ObjectHideFlags: 0
@@ -1987,12 +2019,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8552629084262952535}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.2, y: 0.2, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.13699389, y: 0.13399997, z: 0.69999516}
+  m_LocalScale: {x: 0.19999999, y: 0.2, z: 0.3}
   m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 4129751964165768435}
+  m_Children:
+  - {fileID: 3233964873210133085}
+  m_Father: {fileID: 3647100694039941008}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &2607792172008781742
 MeshFilter:
@@ -2025,7 +2058,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: b84619c36538a214a8f628c7a89cb65b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2068,3 +2101,25 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!95 &5534159259656959868
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8552629084262952535}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 61e6b304b2e6a5d5f9a5a9d3bc45fd7b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 1
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
