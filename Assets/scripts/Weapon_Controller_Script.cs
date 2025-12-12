@@ -90,7 +90,6 @@ public class Weapon_Controller_Script : MonoBehaviour
 
         nextFireTime = Time.time + fireRate;
         ammoInMagazine--;
-
         weaponAudio?.PlayFire();
 
         if (animator != null)
@@ -98,15 +97,31 @@ public class Weapon_Controller_Script : MonoBehaviour
 
         for (int i = 0; i < pelletCount; i++)
         {
+            // Random shotgun spread
             Vector3 spreadDir = Quaternion.Euler(
                 Random.Range(-spreadAngle, spreadAngle),
                 Random.Range(-spreadAngle, spreadAngle),
                 0
             ) * firePoint.forward;
 
-            Instantiate(bulletPrefab, firePoint.position, Quaternion.LookRotation(spreadDir));
+            // Instantiate the bullet
+            var bulletInstance = Instantiate(
+                bulletPrefab,
+                firePoint.position,
+                Quaternion.LookRotation(spreadDir)
+            );
+
+            // Apply velocity to the clone, not the prefab
+            var rb = bulletInstance.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                rb.isKinematic = false;
+                rb.linearVelocity = spreadDir.normalized * bulletSpeed; 
+            }
+
         }
     }
+
 
     public void Reload()
     {
