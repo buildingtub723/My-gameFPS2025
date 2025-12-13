@@ -4,13 +4,11 @@ public class MeleeAttack : StateMachineBehaviour
 {
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        Debug.Log("Attack");
+        Debug.Log("Attack Started");
     }
 
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        Debug.Log("Attack finished");
-        animator.ResetTrigger("Hit");
+        Debug.Log("Attack Ended");
     }
-
 }

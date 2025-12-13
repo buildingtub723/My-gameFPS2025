@@ -3,8 +3,7 @@ public enum FireMode
 {
     SemiAuto,
     FullAuto,
-    OneShot,
-    Melee
+    OneShot
 }
 
 public class Weapon_Controller_Script : MonoBehaviour
@@ -35,9 +34,6 @@ public class Weapon_Controller_Script : MonoBehaviour
     private bool isFiring = false;
 
     public WeaponAudioHandler weaponAudio;
-
-    [Header("Melee Settings")]
-    public GameObject melee;
 
     private void Awake()
     {
@@ -71,12 +67,6 @@ public class Weapon_Controller_Script : MonoBehaviour
     {
         isFiring = false;
     }
-
-    public void Hit()
-    {
-        animator.SetTrigger("Hit");
-    }
-
     public void Fire()
     {
         if (Time.time < nextFireTime || isReloading)
