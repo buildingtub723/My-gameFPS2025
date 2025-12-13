@@ -52,8 +52,6 @@ public class ThirdPersonCharacterController : MonoBehaviour
     /* Interaction UI */
     public TMP_Text interactionText;
 
-    public GameObject melee;
-
 
     private void Awake()
     {
@@ -127,19 +125,12 @@ public class ThirdPersonCharacterController : MonoBehaviour
 
         if(currentWeapon == null)
         {
-            melee.SetActive(true);
-
-            if (currentWeapon.fireMode == FireMode.OneShot)
-            {
-                if(shootAction.WasPressedThisFrame())
-                {
-                    gunAnimator.SetTrigger("Hit");
-                }
-            }
+            interactionText.text = $"Press R to reload";
+            interactionText.gameObject.SetActive(true);
         }
         else
         {
-            melee.SetActive(false);
+            interactionText.gameObject.SetActive(false);
         }
     
         if (Keyboard.current.rKey.wasPressedThisFrame && currentWeapon != null)

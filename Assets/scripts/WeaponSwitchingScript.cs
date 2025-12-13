@@ -3,6 +3,7 @@ using UnityEngine;
 public class WeaponSwitchingScript : MonoBehaviour
 {
     public Transform weaponHolder;
+    public Weapon_Controller_Script defaultMeleeWeapon; // Assign your melee weapon prefab or script
     private int currentWeaponIndex = 0;
 
     private ThirdPersonCharacterController characterController;
@@ -10,11 +11,26 @@ public class WeaponSwitchingScript : MonoBehaviour
     private void Start()
     {
         characterController = GetComponent<ThirdPersonCharacterController>();
-        SelectWeapon(currentWeaponIndex);
+
+        if (weaponHolder.childCount > 0)
+        {
+            SelectWeapon(currentWeaponIndex);
+        }
+        else
+        {
+            EquipDefaultMelee();
+        }
     }
 
     private void Update()
     {
+        // If no weapons picked, always use melee
+        if (weaponHolder.childCount == 0)
+        {
+            EquipDefaultMelee();
+            return;
+        }
+
         float scroll = Input.mouseScrollDelta.y;
 
         if (scroll > 0f)
@@ -38,9 +54,14 @@ public class WeaponSwitchingScript : MonoBehaviour
 
             if (i == index)
             {
-                // Update reference in character controller
                 characterController.currentWeapon = weapon.GetComponent<Weapon_Controller_Script>();
             }
         }
+    }
+
+    void EquipDefaultMelee()
+    {
+        // No weapons, always fall back to melee
+        characterController.currentWeapon = defaultMeleeWeapon;
     }
 }
