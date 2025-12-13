@@ -6,22 +6,14 @@ public class UniversalBullet : MonoBehaviour
     public float lifeTime = 5f;
     public float speed = 20f;
     public Team shooterTeam;
-    public string weaponType;
 
     void Start()
     {
         // Set bullet forward velocity
         Rigidbody rb = GetComponent<Rigidbody>();
-
-        
-        if (rb != null && (weaponType == "Shotgun" || weaponType == "Rifle"))
+        if (rb != null)
         {
             rb.linearVelocity = transform.forward * speed; // Unity 6 correct usage
-        }
-        else if (rb != null && weaponType == "Grenade")
-        {
-            Vector3 shootDir = (transform.forward + Vector3.up * 0.25f).normalized;
-            rb.linearVelocity = shootDir * (speed / 2f);
         }
 
         Destroy(gameObject, lifeTime);
