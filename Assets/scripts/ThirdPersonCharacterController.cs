@@ -29,7 +29,13 @@ public class ThirdPersonCharacterController : MonoBehaviour
 
     private float footstepTimer = 0f;
 
-    public float walkspeed = 5f;
+    [Header("Movement Speeds")]
+    public float walkSpeed ;
+    public float runSpeed ;
+
+    [Header("Movement State (Read Only)")]
+    [SerializeField] private bool isRunning;
+
     public float rotateSpeed = 3f;
     public float jumpHeight = 2f;
     public float gravity = -9.81f;
@@ -123,16 +129,19 @@ public class ThirdPersonCharacterController : MonoBehaviour
             }
         }
 
-        if(currentWeapon == null)
+        if (interactionText != null)
         {
-            interactionText.text = $"Press R to reload";
-            interactionText.gameObject.SetActive(true);
+            if (currentWeapon == null)
+            {
+                interactionText.text = "Press R to reload";
+                interactionText.gameObject.SetActive(true);
+            }
+            else
+            {
+                interactionText.gameObject.SetActive(false);
+            }
         }
-        else
-        {
-            interactionText.gameObject.SetActive(false);
-        }
-    
+
         if (Keyboard.current.rKey.wasPressedThisFrame && currentWeapon != null)
         {
             currentWeapon.Reload();
@@ -173,24 +182,33 @@ public class ThirdPersonCharacterController : MonoBehaviour
     private void Move()
     {
         Vector2 input = m_moveAction.ReadValue<Vector2>();
+
+        // Direction relative to player orientation
         Vector3 inputDir = transform.forward * input.y + transform.right * input.x;
-        Vector3 targetVelocity = inputDir.normalized * walkspeed;
+        inputDir = Vector3.ClampMagnitude(inputDir, 1f);
 
-        // Determine acceleration or deceleration rate
-        float smoothFactor = (inputDir.magnitude > 0) ? acceleration : deceleration;
+        // Determine if the player wants to run
+        bool wantsToRun = m_sprintAction.IsPressed() && inputDir.magnitude > 0.1f;
 
-        // Smoothly interpolate the velocity
-        currentMoveVelocity = Vector3.Lerp(currentMoveVelocity, targetVelocity, smoothFactor * Time.deltaTime);
+        // Store running state (important for future systems)
+        isRunning = wantsToRun;
 
-        // Movement & Sprinting
-        if (m_sprintAction.IsPressed())
-        {
-            controller.Move(currentMoveVelocity * Time.deltaTime * 20f);
-        }
-        else
-        {
-            controller.Move(currentMoveVelocity * Time.deltaTime);
-        }
+        // Choose target speed
+        float targetSpeed = isRunning ? runSpeed : walkSpeed;
+        Vector3 targetVelocity = inputDir * targetSpeed;
+
+        // Acceleration vs deceleration
+        float smoothFactor = (inputDir.magnitude > 0.1f) ? acceleration : deceleration;
+
+        // Smooth velocity
+        currentMoveVelocity = Vector3.Lerp(
+            currentMoveVelocity,
+            targetVelocity,
+            smoothFactor * Time.deltaTime
+        );
+
+        // Apply movement
+        controller.Move(currentMoveVelocity * Time.deltaTime);
     }
 
     private void rotate()
