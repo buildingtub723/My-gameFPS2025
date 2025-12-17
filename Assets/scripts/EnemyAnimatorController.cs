@@ -31,4 +31,9 @@ public class EnemyAnimatorController : MonoBehaviour
     {
         animator.SetBool("isDead", true);
     }
+
+    public void PlayHurt()
+    {
+        animator.SetTrigger("isHurt");
+    }
 }
