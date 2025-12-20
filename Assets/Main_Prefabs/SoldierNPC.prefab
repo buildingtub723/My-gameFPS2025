@@ -847,6 +847,7 @@ GameObject:
   - component: {fileID: 3736747553384547073}
   - component: {fileID: 8542243017629982966}
   - component: {fileID: 7078248278854274538}
+  - component: {fileID: 499735570126723160}
   m_Layer: 0
   m_Name: SoldierNPC
   m_TagString: 'NPC '
@@ -1033,6 +1034,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 100
   currentHealth: 0
+  checkpoints: []
+  vectorPoint: {x: 0, y: 0, z: 0}
 --- !u!114 &6491965033430560410
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1200,6 +1203,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5763a14047edc1448296c70558f0a7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &499735570126723160
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3302864915091141670}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: d9d458ff05e9efe46a356dcb5a43370d, type: 3}
+  m_Controller: {fileID: 9100000, guid: 92340bb7ddd59471ba6da15fb16e75e2, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &3313263398941351445
 GameObject:
   m_ObjectHideFlags: 0
