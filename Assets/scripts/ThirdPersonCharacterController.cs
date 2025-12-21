@@ -200,12 +200,18 @@ public class ThirdPersonCharacterController : MonoBehaviour
         // Acceleration vs deceleration
         float smoothFactor = (inputDir.magnitude > 0.1f) ? acceleration : deceleration;
 
-        // Smooth velocity
-        currentMoveVelocity = Vector3.Lerp(
-            currentMoveVelocity,
-            targetVelocity,
-            smoothFactor * Time.deltaTime
-        );
+        // Smoothly interpolate the velocity
+        currentMoveVelocity = Vector3.Lerp(currentMoveVelocity, targetVelocity, smoothFactor * Time.deltaTime);
+
+        // Movement & Sprinting
+        if (m_sprintAction.IsPressed())
+        {
+            controller.Move(currentMoveVelocity * Time.deltaTime * 20f);
+        }
+        else
+        {
+            controller.Move(currentMoveVelocity * Time.deltaTime);
+        }
 
         // Apply movement
         controller.Move(currentMoveVelocity * Time.deltaTime);
