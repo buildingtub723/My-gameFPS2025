@@ -229,6 +229,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 100
   currentHealth: 0
+  checkpoints: []
+  vectorPoint: {x: 0, y: 0, z: 0}
 --- !u!114 &1971116733700237780
 MonoBehaviour:
   m_ObjectHideFlags: 0

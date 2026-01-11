@@ -144,7 +144,7 @@ public class ThirdPersonCharacterController : MonoBehaviour
 
         if (Keyboard.current.rKey.wasPressedThisFrame && currentWeapon != null)
         {
-            currentWeapon.Reload();
+            currentWeapon.Reload(this);
         }
         if (Keyboard.current.digit1Key.wasPressedThisFrame) SwitchWeapon(0);
         if (Keyboard.current.digit2Key.wasPressedThisFrame) SwitchWeapon(1);

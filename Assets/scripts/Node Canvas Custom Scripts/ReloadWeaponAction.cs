@@ -32,7 +32,7 @@ namespace LoneWolf.AI
             {
                 if (weapon.ammoInMagazine < weapon.magazineSize && !weaponObject.value.GetComponent<Weapon_Controller_Script>().Equals(null))
                 {
-                    weapon.Reload();
+                    weapon.Reload(agent);
                     Debug.Log("ReloadWeaponAction: Reloading weapon.");
                 }
             }

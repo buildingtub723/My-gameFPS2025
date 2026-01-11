@@ -1,4 +1,7 @@
-using UnityEngine;
+﻿using UnityEngine;
+using System;
+using System.Collections;
+
 public enum FireMode
 {
     SemiAuto,
@@ -21,37 +24,43 @@ public class Weapon_Controller_Script : MonoBehaviour
     public int ammoReserve = 90;
     public float reloadTime = 2f;
 
-    [Header("Animation")]
-    public Animator animator;
-
+    [Header("Weapon Info")]
     public string weaponType;
+    public FireMode fireMode = FireMode.SemiAuto;
+
+    [Header("Audio")]
+    public WeaponAudioHandler weaponAudio;
+
+    // ─────────────────────────────
+    // EVENTS (Animation Relay)
+    // ─────────────────────────────
+    public event Action OnShoot;
+    public event Action OnReloadStart;
+    public event Action OnReloadEnd;
 
     private float nextFireTime;
     private bool isReloading = false;
-
-    public FireMode fireMode = FireMode.SemiAuto; // Add this line at the top
     private bool isFiring = false;
-
-    public WeaponAudioHandler weaponAudio;
 
     private void Awake()
     {
         weaponAudio = GetComponent<WeaponAudioHandler>();
     }
-    private void Start()
-    {
-        //ammoInMagazine = magazineSize;
-    }
+
     private void Update()
     {
         if (fireMode == FireMode.FullAuto && isFiring && !isReloading && ammoInMagazine > 0)
         {
             if (Time.time >= nextFireTime)
             {
-                Fire(); // Call fire internally for full auto
+                Fire();
             }
         }
     }
+
+    // ─────────────────────────────
+    // FIRE CONTROL
+    // ─────────────────────────────
     public void StartFiring()
     {
         isFiring = true;
@@ -61,6 +70,7 @@ public class Weapon_Controller_Script : MonoBehaviour
     {
         isFiring = false;
     }
+
     public void Fire()
     {
         if (Time.time < nextFireTime || isReloading)
@@ -76,48 +86,65 @@ public class Weapon_Controller_Script : MonoBehaviour
         ammoInMagazine--;
 
         weaponAudio?.PlayFire();
-
-        if (animator != null)
-            animator.SetTrigger("Shoot");
+        OnShoot?.Invoke();
 
         for (int i = 0; i < pelletCount; i++)
         {
             Vector3 spreadDir = Quaternion.Euler(
-                Random.Range(-spreadAngle, spreadAngle),
-                Random.Range(-spreadAngle, spreadAngle),
-                0
+                UnityEngine.Random.Range(-spreadAngle, spreadAngle),
+                UnityEngine.Random.Range(-spreadAngle, spreadAngle),
+                0f
             ) * firePoint.forward;
 
-            Instantiate(bulletPrefab, firePoint.position, Quaternion.LookRotation(spreadDir));
+            Instantiate(
+                bulletPrefab,
+                firePoint.position,
+                Quaternion.LookRotation(spreadDir)
+            );
         }
     }
 
-    public void Reload()
+    // ─────────────────────────────
+    // RELOAD
+    // ─────────────────────────────
+    public void Reload(Component coroutineRunner)
     {
         if (isReloading || ammoInMagazine == magazineSize || ammoReserve <= 0)
             return;
 
+        var runner = coroutineRunner as MonoBehaviour;
+        if (runner == null)
+        {
+            Debug.LogError("WeaponController.Reload: coroutineRunner is not a MonoBehaviour.");
+            return;
+        }
+
         weaponAudio?.PlayReload();
-
-        MonoBehaviour root = GetComponentInParent<MonoBehaviour>();
-        if (root != null)
-            root.StartCoroutine(ReloadRoutine());
-
-        Debug.Log("Reloading...");
+        runner.StartCoroutine(ReloadRoutine());
     }
 
-    private System.Collections.IEnumerator ReloadRoutine()
+
+    private IEnumerator ReloadRoutine()
     {
         isReloading = true;
-        if (animator != null) animator.SetTrigger("Reload");
+        OnReloadStart?.Invoke();
+
         yield return new WaitForSeconds(reloadTime);
 
-        int bulletsToReload = magazineSize - ammoInMagazine;
-        int bulletsAvailable = Mathf.Min(bulletsToReload, ammoReserve);
+        int bulletsNeeded = magazineSize - ammoInMagazine;
+        int bulletsAvailable = Mathf.Min(bulletsNeeded, ammoReserve);
 
         ammoInMagazine += bulletsAvailable;
         ammoReserve -= bulletsAvailable;
 
         isReloading = false;
+        OnReloadEnd?.Invoke();
     }
+
+    // ─────────────────────────────
+    // STATUS (OPTIONAL HELPERS)
+    // ─────────────────────────────
+    public bool IsReloading() => isReloading;
+    public bool HasAmmo() => ammoInMagazine > 0;
 }
+
