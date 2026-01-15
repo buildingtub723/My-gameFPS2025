@@ -1,16 +1,17 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-[RequireComponent(typeof(Animator))]
 public class NpcSoldierAnimationHandler : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private Animator animator;
     [SerializeField] private NavMeshAgent agent;
+    [SerializeField] private Weapon_Controller_Script weapon;
+    [SerializeField] private Health health;
 
     [Header("Hit Reaction")]
     [SerializeField] private float hitCooldown = 0.4f;
-    private float lastHitTime = -999f;
+    private float lastHitTime;
 
     private bool isDead;
 
@@ -20,44 +21,87 @@ public class NpcSoldierAnimationHandler : MonoBehaviour
         //if (!agent) agent = GetComponentInParent<NavMeshAgent>();
     }
 
+    private void OnEnable()
+    {
+        BindWeaponEvents();
+        BindHealthEvents();
+    }
+
+    private void OnDisable()
+    {
+        UnbindWeaponEvents();
+        UnbindHealthEvents();
+    }
+
     private void Update()
     {
         if (isDead || agent == null) return;
-
-        UpdateMovementParameters();
+        UpdateMovement();
     }
 
-    // -------------------------
-    // MOVEMENT
-    // -------------------------
-    private void UpdateMovementParameters()
+    // 
+    // MOVEMENT (BASE LAYER)
+    // 
+    private void UpdateMovement()
     {
-        Vector3 localVelocity = transform.InverseTransformDirection(agent.velocity);
-        Vector3 normalized = localVelocity / Mathf.Max(agent.speed, 0.01f);
+        Vector3 localVel = transform.InverseTransformDirection(agent.velocity);
+        Vector3 normalized = localVel / Mathf.Max(agent.speed, 0.01f);
 
         animator.SetFloat("MoveX", Mathf.Clamp(normalized.x, -1f, 1f));
         animator.SetFloat("MoveY", Mathf.Clamp(normalized.z, -1f, 1f));
     }
 
-    // -------------------------
-    // COMBAT (CALLED BY BT / WEAPON)
-    // -------------------------
-    public void PlayFire()
+    // 
+    // WEAPON  ANIMATOR
+    // 
+    private void BindWeaponEvents()
+    {
+        if (!weapon) return;
+
+        weapon.OnShoot += OnWeaponFire;
+        weapon.OnReloadStart += OnWeaponReload;
+    }
+
+    private void UnbindWeaponEvents()
+    {
+        if (!weapon) return;
+
+        weapon.OnShoot -= OnWeaponFire;
+        weapon.OnReloadStart -= OnWeaponReload;
+    }
+
+    private void OnWeaponFire()
     {
         if (isDead) return;
         animator.SetTrigger("Fire");
     }
 
-    public void PlayReload()
+    private void OnWeaponReload()
     {
         if (isDead) return;
         animator.SetTrigger("Reload");
     }
 
-    // -------------------------
-    // DAMAGE / HIT
-    // -------------------------
-    public void PlayHit(float damage)
+    // 
+    // HEALTH  ANIMATOR
+    // 
+    private void BindHealthEvents()
+    {
+        if (!health) return;
+
+        health.OnDamageTaken += OnDamaged;
+        health.OnDeath += OnDeath;
+    }
+
+    private void UnbindHealthEvents()
+    {
+        if (!health) return;
+
+        health.OnDamageTaken -= OnDamaged;
+        health.OnDeath -= OnDeath;
+    }
+
+    private void OnDamaged(float amount)
     {
         if (isDead) return;
         if (Time.time - lastHitTime < hitCooldown) return;
@@ -66,10 +110,7 @@ public class NpcSoldierAnimationHandler : MonoBehaviour
         animator.SetTrigger("Hit");
     }
 
-    // -------------------------
-    // DEATH
-    // -------------------------
-    public void PlayDeath()
+    private void OnDeath()
     {
         if (isDead) return;
 
@@ -78,4 +119,5 @@ public class NpcSoldierAnimationHandler : MonoBehaviour
         animator.SetTrigger("Die");
     }
 }
+
 

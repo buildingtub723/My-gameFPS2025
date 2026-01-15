@@ -16,19 +16,19 @@ AvatarMask:
   - m_Path: metarig.001/Hell IK Bone.L
     m_Weight: 0
   - m_Path: metarig.001/Hell IK Bone.L/Hell IK Bone.L_end
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: metarig.001/Hell IK Bone.R
     m_Weight: 0
   - m_Path: metarig.001/Hell IK Bone.R/Hell IK Bone.R_end
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: metarig.001/KneeIK Bone.L
     m_Weight: 0
   - m_Path: metarig.001/KneeIK Bone.L/KneeIK Bone.L_end
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: metarig.001/KneeIK Bone.R
     m_Weight: 0
   - m_Path: metarig.001/KneeIK Bone.R/KneeIK Bone.R_end
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: metarig.001/spine
     m_Weight: 1
   - m_Path: metarig.001/spine/pelvis.L
@@ -46,13 +46,13 @@ AvatarMask:
   - m_Path: metarig.001/spine/spine.001/spine.002/spine.003
     m_Weight: 1
   - m_Path: metarig.001/spine/spine.001/spine.002/spine.003/Elbow_IK.L
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: metarig.001/spine/spine.001/spine.002/spine.003/Elbow_IK.L/Elbow_IK.L_end
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: metarig.001/spine/spine.001/spine.002/spine.003/Elbow_IK.R
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: metarig.001/spine/spine.001/spine.002/spine.003/Elbow_IK.R/Elbow_IK.R_end
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: metarig.001/spine/spine.001/spine.002/spine.003/shoulder.L
     m_Weight: 1
   - m_Path: metarig.001/spine/spine.001/spine.002/spine.003/shoulder.L/upper_arm.L
@@ -172,13 +172,13 @@ AvatarMask:
   - m_Path: metarig.001/spine/spine.001/spine.002/spine.003/spine.004/spine.005/spine.005_end
     m_Weight: 1
   - m_Path: metarig.001/spine/spine.001/spine.002/spine.003/Wrist_IK.L
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: metarig.001/spine/spine.001/spine.002/spine.003/Wrist_IK.L/Wrist_IK.L_end
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: metarig.001/spine/spine.001/spine.002/spine.003/Wrist_IK.R
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: metarig.001/spine/spine.001/spine.002/spine.003/Wrist_IK.R/Wrist_IK.R_end
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: metarig.001/spine/thigh.L
     m_Weight: 0
   - m_Path: metarig.001/spine/thigh.L/shin.L
@@ -200,4 +200,4 @@ AvatarMask:
   - m_Path: metarig.001/spine/thigh.R/shin.R/foot.R/toe.R/toe.R_end
     m_Weight: 0
   - m_Path: Soviet Soldier Npc
-    m_Weight: 1
+    m_Weight: 0
