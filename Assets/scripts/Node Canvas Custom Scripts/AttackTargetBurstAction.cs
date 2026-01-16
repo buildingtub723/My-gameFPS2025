@@ -4,57 +4,60 @@ using ParadoxNotion.Design;
 using Header = UnityEngine.HeaderAttribute;
 
 [Category("Combat")]
-[Description("AI aims horizontally and vertically at the target, firing in controlled bursts.")]
+[Description("Aims at target and fires controlled bursts.")]
 public class AttackTargetBurstAction : ActionTask
 {
-    [Header("Blackboard References")]
+    [Header("Blackboard")]
     public BBParameter<GameObject> target;
     public BBParameter<GameObject> weaponObject;
-    public BBParameter<GameObject> weaponHolder; // pivot for vertical aiming
+    public BBParameter<float> aimPitch;   // NEW Blackboard variable
 
     [Header("Burst Settings")]
-    public int burstCount = 3;         // number of shots per burst
-    public float burstDelay = 0.2f;    // time between each shot
-    public float recoveryTime = 2f;    // cooldown before the next burst can start
+    public int burstCount = 3;
+    public float burstDelay = 0.2f;
+    public float recoveryTime = 2f;
 
     [Header("Aiming Settings")]
-    public float bodyTurnSpeed = 5f;
-    public float aimSpeed = 8f;
+    public float bodyTurnSpeed = 6f;
+    public float maxAimAngle = 45f; // degrees
 
-    private Weapon_Controller_Script weaponScript;
+    private Weapon_Controller_Script weapon;
     private Transform body;
-    private Transform pivot;
+    private NpcSoldierAnimationHandler animationHandler;
 
     private int shotsFired;
     private float nextShotTime;
     private float burstEndTime;
-
     private bool isBursting;
 
     protected override string info => "Attack Target (Burst)";
 
     protected override void OnExecute()
     {
-        // validate
         if (target.value == null || weaponObject.value == null)
         {
             EndAction(false);
             return;
         }
 
-        // cache
-        weaponScript = weaponObject.value.GetComponent<Weapon_Controller_Script>();
-        if (weaponScript == null)
+        weapon = weaponObject.value.GetComponent<Weapon_Controller_Script>();
+        if (weapon == null)
         {
-            Debug.LogError($"{weaponObject.value.name} missing Weapon_Controller_Script!");
+            Debug.LogError("AttackTargetBurstAction: Weapon_Controller_Script missing!");
             EndAction(false);
             return;
         }
 
-        body = agent != null ? agent.transform : weaponObject.value.transform.root;
-        pivot = weaponHolder.value != null ? weaponHolder.value.transform : weaponObject.value.transform;
+        body = agent.transform;
 
-        // start burst
+        animationHandler = agent.GetComponent<NpcSoldierAnimationHandler>();
+        if (animationHandler == null)
+        {
+            Debug.LogError("AttackTargetBurstAction: NpcSoldierAnimationHandler missing!");
+            EndAction(false);
+            return;
+        }
+
         shotsFired = 0;
         isBursting = true;
         nextShotTime = Time.time;
@@ -76,7 +79,6 @@ public class AttackTargetBurstAction : ActionTask
             HandleBurstFire();
         }
 
-        // once the burst + cooldown are done, finish
         if (Time.time >= burstEndTime)
         {
             EndAction(true);
@@ -87,37 +89,50 @@ public class AttackTargetBurstAction : ActionTask
     {
         Vector3 toTarget = target.value.transform.position - body.position;
 
-        // --- horizontal rotation ---
-        Vector3 flatDir = toTarget;
-        flatDir.y = 0;
-        if (flatDir.sqrMagnitude > 0.01f)
+        //  BODY YAW (horizontal) 
+        Vector3 flatDir = new Vector3(toTarget.x, 0f, toTarget.z);
+        if (flatDir.sqrMagnitude > 0.001f)
         {
             Quaternion lookRot = Quaternion.LookRotation(flatDir.normalized);
-            body.rotation = Quaternion.Lerp(body.rotation, lookRot, Time.deltaTime * bodyTurnSpeed);
+            body.rotation = Quaternion.Slerp(
+                body.rotation,
+                lookRot,
+                Time.deltaTime * bodyTurnSpeed
+            );
         }
 
-        // --- vertical aiming (pitch only) ---
-        if (pivot != null)
-        {
-            Vector3 aimDir = (target.value.transform.position - pivot.position).normalized;
-            Quaternion lookPitch = Quaternion.LookRotation(aimDir);
-            Quaternion verticalOnly = Quaternion.Euler(lookPitch.eulerAngles.x, pivot.rotation.eulerAngles.y, pivot.rotation.eulerAngles.z);
-            pivot.rotation = Quaternion.Lerp(pivot.rotation, verticalOnly, Time.deltaTime * aimSpeed);
-        }
+        //  VERTICAL AIM (pitch)
+        float pitchAngle = Vector3.SignedAngle(
+            body.forward,
+            toTarget.normalized,
+            body.right
+        );
+
+        float normalizedPitch = Mathf.Clamp(
+            pitchAngle / maxAimAngle,
+            -1f,
+            1f
+        );
+
+        // Write to Blackboard
+        aimPitch.value = normalizedPitch;
+
+        // Push to animation handler
+        animationHandler.SetAimPitch(normalizedPitch);
     }
 
     private void HandleBurstFire()
     {
         if (Time.time >= nextShotTime && shotsFired < burstCount)
         {
-            weaponScript.Fire(); // trigger one shot
+            weapon.Fire();
             shotsFired++;
             nextShotTime = Time.time + burstDelay;
         }
 
         if (shotsFired >= burstCount)
         {
-            isBursting = false; // stop firing, wait for cooldown
+            isBursting = false;
         }
     }
 }

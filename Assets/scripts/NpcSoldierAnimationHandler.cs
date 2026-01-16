@@ -9,16 +9,43 @@ public class NpcSoldierAnimationHandler : MonoBehaviour
     [SerializeField] private Weapon_Controller_Script weapon;
     [SerializeField] private Health health;
 
+    [Header("Aiming (Vertical)")]
+    [Tooltip("Bone used for vertical aiming (Spine / Chest)")]
+    [SerializeField] private Transform aimBone;
+
+    [Tooltip("Maximum up/down angle in degrees")]
+    [SerializeField] private float maxAimAngle = 45f;
+
+    [Tooltip("How fast the aim bone follows target")]
+    [SerializeField] private float aimSmoothSpeed = 10f;
+
     [Header("Hit Reaction")]
     [SerializeField] private float hitCooldown = 0.4f;
-    private float lastHitTime;
 
+    private float lastHitTime;
     private bool isDead;
+
+    // Runtime aiming data (set by AI)
+    private float targetAimPitch;   // -1 to +1
+    private float currentAimPitch;
+
+    private Quaternion initialBoneLocalRotation;
+
+    // --------------------------------------------------------------------
 
     private void Awake()
     {
-        //if (!animator) animator = GetComponent<Animator>();
-        //if (!agent) agent = GetComponentInParent<NavMeshAgent>();
+        if (!animator) animator = GetComponentInChildren<Animator>();
+        if (!agent) agent = GetComponentInParent<NavMeshAgent>();
+
+        if (aimBone != null)
+        {
+            initialBoneLocalRotation = aimBone.localRotation;
+        }
+        else
+        {
+            Debug.LogWarning($"{name}: No Aim Bone assigned!");
+        }
     }
 
     private void OnEnable()
@@ -39,9 +66,16 @@ public class NpcSoldierAnimationHandler : MonoBehaviour
         UpdateMovement();
     }
 
-    // 
+    private void LateUpdate()
+    {
+        if (isDead) return;
+        ApplyVerticalAiming();
+    }
+
+    // --------------------------------------------------------------------
     // MOVEMENT (BASE LAYER)
-    // 
+    // --------------------------------------------------------------------
+
     private void UpdateMovement()
     {
         Vector3 localVel = transform.InverseTransformDirection(agent.velocity);
@@ -51,9 +85,42 @@ public class NpcSoldierAnimationHandler : MonoBehaviour
         animator.SetFloat("MoveY", Mathf.Clamp(normalized.z, -1f, 1f));
     }
 
-    // 
-    // WEAPON  ANIMATOR
-    // 
+    // --------------------------------------------------------------------
+    // AIMING API (CALLED BY AI)
+    // --------------------------------------------------------------------
+
+    /// <summary>
+    /// Called by AI / Behavior Tree.
+    /// Normalized pitch value: -1 (down) to +1 (up)
+    /// </summary>
+    public void SetAimPitch(float normalizedPitch)
+    {
+        targetAimPitch = Mathf.Clamp(normalizedPitch, -1f, 1f);
+    }
+
+    private void ApplyVerticalAiming()
+    {
+        if (aimBone == null) return;
+
+        // Smooth pitch
+        currentAimPitch = Mathf.Lerp(
+            currentAimPitch,
+            targetAimPitch,
+            Time.deltaTime * aimSmoothSpeed
+        );
+
+        float angle = currentAimPitch * maxAimAngle;
+
+        Quaternion pitchRotation = Quaternion.Euler(angle, 0f, 0f);
+
+        // Apply additive rotation AFTER animation
+        aimBone.localRotation = initialBoneLocalRotation * pitchRotation;
+    }
+
+    // --------------------------------------------------------------------
+    // WEAPON ANIMATOR
+    // --------------------------------------------------------------------
+
     private void BindWeaponEvents()
     {
         if (!weapon) return;
@@ -82,9 +149,10 @@ public class NpcSoldierAnimationHandler : MonoBehaviour
         animator.SetTrigger("Reload");
     }
 
-    // 
-    // HEALTH  ANIMATOR
-    // 
+    // --------------------------------------------------------------------
+    // HEALTH ANIMATOR
+    // --------------------------------------------------------------------
+
     private void BindHealthEvents()
     {
         if (!health) return;
@@ -119,5 +187,3 @@ public class NpcSoldierAnimationHandler : MonoBehaviour
         animator.SetTrigger("Die");
     }
 }
-
-

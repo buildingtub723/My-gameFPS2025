@@ -3155,7 +3155,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 919132147583322913}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1cb10fb970b2d194cb501ea486a81f71, type: 3}
   m_Name: 
@@ -3164,6 +3164,9 @@ MonoBehaviour:
   agent: {fileID: 1895809701840032677}
   weapon: {fileID: 3051337088826145528}
   health: {fileID: 1865502418874098110}
+  aimBone: {fileID: 6418659802485784749}
+  maxAimAngle: 45
+  aimSmoothSpeed: 10
   hitCooldown: 0.4
 --- !u!1 &919132148282090381
 GameObject:
@@ -5012,12 +5015,15 @@ MonoBehaviour:
   _serializedBlackboard: '{"_variables":{"Target":{"_value":1,"_name":"Target","_id":"82c123e0-e18d-423e-a8c6-9b5103acb641","$type":"NodeCanvas.Framework.Variable`1[[UnityEngine.GameObject,
     UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]"},"WeaponObject":{"_value":2,"_name":"WeaponObject","_id":"b1a5827d-93d6-48f0-8ab4-a4215b8168ee","$type":"NodeCanvas.Framework.Variable`1[[UnityEngine.GameObject,
     UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]"},"weaponHolder":{"_value":3,"_name":"weaponHolder","_id":"5ab40d56-eb9d-40c1-bc4b-b1e258c5433e","$type":"NodeCanvas.Framework.Variable`1[[UnityEngine.Transform,
+    UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]"},"AimPitch":{"_name":"AimPitch","_id":"0956a3dd-95f4-4cc3-a1d6-5bc108d8494c","$type":"NodeCanvas.Framework.Variable`1[[System.Single,
+    mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"},"npcAnimator":{"_value":4,"_name":"npcAnimator","_id":"77268561-a7b1-4feb-8ddf-29d052639f9d","$type":"NodeCanvas.Framework.Variable`1[[UnityEngine.MonoBehaviour,
     UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]"}}}'
   _objectReferences:
   - {fileID: 0}
   - {fileID: 1460214775}
   - {fileID: 6293982835570361333}
   - {fileID: 6259885229596821009}
+  - {fileID: 7354740973547305767}
   _serializedVariables:
   - _json: '{"_value":1,"_name":"Target","_id":"82c123e0-e18d-423e-a8c6-9b5103acb641","$type":"NodeCanvas.Framework.Variable`1[[UnityEngine.GameObject,
       UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]"}'
@@ -5034,6 +5040,14 @@ MonoBehaviour:
     _references:
     - {fileID: 0}
     - {fileID: 6259885229596821009}
+  - _json: '{"_name":"AimPitch","_id":"0956a3dd-95f4-4cc3-a1d6-5bc108d8494c","$type":"NodeCanvas.Framework.Variable`1[[System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"}'
+    _references: []
+  - _json: '{"_value":1,"_name":"npcAnimator","_id":"77268561-a7b1-4feb-8ddf-29d052639f9d","$type":"NodeCanvas.Framework.Variable`1[[UnityEngine.MonoBehaviour,
+      UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]"}'
+    _references:
+    - {fileID: 0}
+    - {fileID: 7354740973547305767}
 --- !u!1 &2986090373496256346
 GameObject:
   m_ObjectHideFlags: 0
@@ -7921,6 +7935,7 @@ GameObject:
   - component: {fileID: 741424868026337723}
   - component: {fileID: 1895809701840032677}
   - component: {fileID: 995614268087074774}
+  - component: {fileID: 7354740973547305767}
   m_Layer: 0
   m_Name: NpcSoldier
   m_TagString: 'NPC '
@@ -8972,6 +8987,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deathDelay: 5
+--- !u!114 &7354740973547305767
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6253118767557409304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1cb10fb970b2d194cb501ea486a81f71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 90564222}
+  agent: {fileID: 1895809701840032677}
+  weapon: {fileID: 3051337088826145528}
+  health: {fileID: 1865502418874098110}
+  aimBone: {fileID: 6418659802485784749}
+  maxAimAngle: 45
+  aimSmoothSpeed: 10
+  hitCooldown: 0.4
 --- !u!4 &7365745074276393730
 Transform:
   m_ObjectHideFlags: 0
