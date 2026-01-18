@@ -4,26 +4,23 @@ using ParadoxNotion.Design;
 using Header = UnityEngine.HeaderAttribute;
 
 [Category("Combat")]
-[Description("Aims at target and fires controlled bursts.")]
+[Description("Faces target horizontally and fires controlled bursts.")]
 public class AttackTargetBurstAction : ActionTask
 {
     [Header("Blackboard")]
     public BBParameter<GameObject> target;
     public BBParameter<GameObject> weaponObject;
-    public BBParameter<float> aimPitch;   // NEW Blackboard variable
 
     [Header("Burst Settings")]
     public int burstCount = 3;
     public float burstDelay = 0.2f;
     public float recoveryTime = 2f;
 
-    [Header("Aiming Settings")]
+    [Header("Body Rotation")]
     public float bodyTurnSpeed = 6f;
-    public float maxAimAngle = 45f; // degrees
 
     private Weapon_Controller_Script weapon;
     private Transform body;
-    private NpcSoldierAnimationHandler animationHandler;
 
     private int shotsFired;
     private float nextShotTime;
@@ -50,14 +47,6 @@ public class AttackTargetBurstAction : ActionTask
 
         body = agent.transform;
 
-        animationHandler = agent.GetComponent<NpcSoldierAnimationHandler>();
-        if (animationHandler == null)
-        {
-            Debug.LogError("AttackTargetBurstAction: NpcSoldierAnimationHandler missing!");
-            EndAction(false);
-            return;
-        }
-
         shotsFired = 0;
         isBursting = true;
         nextShotTime = Time.time;
@@ -72,7 +61,7 @@ public class AttackTargetBurstAction : ActionTask
             return;
         }
 
-        AimAtTarget();
+        RotateBodyTowardsTarget();
 
         if (isBursting)
         {
@@ -85,40 +74,20 @@ public class AttackTargetBurstAction : ActionTask
         }
     }
 
-    private void AimAtTarget()
+    private void RotateBodyTowardsTarget()
     {
         Vector3 toTarget = target.value.transform.position - body.position;
+        toTarget.y = 0f; // HARD Y LOCK — NO VERTICAL AIM
 
-        //  BODY YAW (horizontal) 
-        Vector3 flatDir = new Vector3(toTarget.x, 0f, toTarget.z);
-        if (flatDir.sqrMagnitude > 0.001f)
-        {
-            Quaternion lookRot = Quaternion.LookRotation(flatDir.normalized);
-            body.rotation = Quaternion.Slerp(
-                body.rotation,
-                lookRot,
-                Time.deltaTime * bodyTurnSpeed
-            );
-        }
+        if (toTarget.sqrMagnitude < 0.001f)
+            return;
 
-        //  VERTICAL AIM (pitch)
-        float pitchAngle = Vector3.SignedAngle(
-            body.forward,
-            toTarget.normalized,
-            body.right
+        Quaternion lookRot = Quaternion.LookRotation(toTarget.normalized);
+        body.rotation = Quaternion.Slerp(
+            body.rotation,
+            lookRot,
+            Time.deltaTime * bodyTurnSpeed
         );
-
-        float normalizedPitch = Mathf.Clamp(
-            pitchAngle / maxAimAngle,
-            -1f,
-            1f
-        );
-
-        // Write to Blackboard
-        aimPitch.value = normalizedPitch;
-
-        // Push to animation handler
-        animationHandler.SetAimPitch(normalizedPitch);
     }
 
     private void HandleBurstFire()
