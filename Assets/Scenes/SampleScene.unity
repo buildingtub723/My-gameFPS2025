@@ -1042,14 +1042,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 577981039}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: -0.00002621549, w: 1}
-  m_LocalPosition: {x: 0.000256967, y: 0.0013014115, z: 0.010275844}
-  m_LocalScale: {x: 0.9818448, y: 0.9818452, z: 0.9818436}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.338, z: -0.067}
+  m_LocalScale: {x: 66.93167, y: 66.93191, z: 66.93164}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 689013160}
-  m_Father: {fileID: 2943780248087127218}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -0.003}
+  m_Father: {fileID: 4280624734462164140}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &578104688
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1135,8 +1135,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 689013159}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0.00000020489092, y: 0.00000015664605, z: -0.000026173988, w: 1}
+  m_LocalPosition: {x: 0.003207902, y: 0.0015185999, z: 0.013825189}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2015,15 +2015,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4129751964165768435, guid: 9352d3a54876fb44bb274a7639b4722e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -17.9
+      value: 47.5
       objectReference: {fileID: 0}
     - target: {fileID: 4129751964165768435, guid: 9352d3a54876fb44bb274a7639b4722e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.2
+      value: 9.2
       objectReference: {fileID: 0}
     - target: {fileID: 4129751964165768435, guid: 9352d3a54876fb44bb274a7639b4722e, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 3.03
+      value: -14.53
       objectReference: {fileID: 0}
     - target: {fileID: 4129751964165768435, guid: 9352d3a54876fb44bb274a7639b4722e, type: 3}
       propertyPath: m_LocalRotation.w
@@ -5152,7 +5152,6 @@ Transform:
   - {fileID: 4249688219041169567}
   - {fileID: 4681993213524592827}
   - {fileID: 1176914135740145665}
-  - {fileID: 577981040}
   m_Father: {fileID: 2064063444574813389}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &2944282733650777270
@@ -5250,13 +5249,14 @@ MonoBehaviour:
     UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]"},"weaponHolder":{"_name":"weaponHolder","_id":"5ab40d56-eb9d-40c1-bc4b-b1e258c5433e","$type":"NodeCanvas.Framework.Variable`1[[UnityEngine.Transform,
     UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]"},"AimPitch":{"_value":25.0,"_name":"AimPitch","_id":"0956a3dd-95f4-4cc3-a1d6-5bc108d8494c","$type":"NodeCanvas.Framework.Variable`1[[System.Single,
     mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"},"npcAnimator":{"_value":3,"_name":"npcAnimator","_id":"77268561-a7b1-4feb-8ddf-29d052639f9d","$type":"NodeCanvas.Framework.Variable`1[[UnityEngine.MonoBehaviour,
-    UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]"},"AimPivot":{"_name":"AimPivot","_id":"835194b9-60b1-44de-b233-cce8b29c00a3","$type":"NodeCanvas.Framework.Variable`1[[UnityEngine.MonoBehaviour,
+    UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]"},"aimPivotController":{"_value":4,"_name":"aimPivotController","_id":"835194b9-60b1-44de-b233-cce8b29c00a3","$type":"NodeCanvas.Framework.Variable`1[[UnityEngine.MonoBehaviour,
     UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]"}}}'
   _objectReferences:
   - {fileID: 0}
   - {fileID: 1460214775}
   - {fileID: 919132148282090381}
   - {fileID: 7354740973547305767}
+  - {fileID: 7354740973547305768}
   _serializedVariables:
   - _json: '{"_value":1,"_name":"Target","_id":"82c123e0-e18d-423e-a8c6-9b5103acb641","$type":"NodeCanvas.Framework.Variable`1[[UnityEngine.GameObject,
       UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]"}'
@@ -5279,9 +5279,11 @@ MonoBehaviour:
     _references:
     - {fileID: 0}
     - {fileID: 7354740973547305767}
-  - _json: '{"_name":"AimPivot","_id":"835194b9-60b1-44de-b233-cce8b29c00a3","$type":"NodeCanvas.Framework.Variable`1[[UnityEngine.MonoBehaviour,
+  - _json: '{"_value":1,"_name":"aimPivotController","_id":"835194b9-60b1-44de-b233-cce8b29c00a3","$type":"NodeCanvas.Framework.Variable`1[[UnityEngine.MonoBehaviour,
       UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]"}'
-    _references: []
+    _references:
+    - {fileID: 0}
+    - {fileID: 7354740973547305768}
 --- !u!1 &2986090373496256346
 GameObject:
   m_ObjectHideFlags: 0
@@ -6796,6 +6798,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 577981040}
   - {fileID: 2321081306802132816}
   - {fileID: 6259885229596821009}
   - {fileID: 543450652355802870}
@@ -8329,6 +8332,7 @@ GameObject:
   - component: {fileID: 1895809701840032677}
   - component: {fileID: 995614268087074774}
   - component: {fileID: 7354740973547305767}
+  - component: {fileID: 7354740973547305768}
   m_Layer: 0
   m_Name: NpcSoldier
   m_TagString: 'NPC '
@@ -9458,6 +9462,20 @@ MonoBehaviour:
   weapon: {fileID: 4076114271154773982}
   health: {fileID: 1865502418874098110}
   hitCooldown: 0.4
+--- !u!114 &7354740973547305768
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6253118767557409304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 216686ff8cd5d804fa4cdfb07ffa3865, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  aimPivot: {fileID: 577981040}
+  aimSpeed: 10
 --- !u!4 &7365745073971266671
 Transform:
   m_ObjectHideFlags: 0

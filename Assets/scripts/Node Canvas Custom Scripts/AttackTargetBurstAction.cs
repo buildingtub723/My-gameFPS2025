@@ -10,6 +10,7 @@ public class AttackTargetBurstAction : ActionTask
     [Header("Blackboard")]
     public BBParameter<GameObject> target;
     public BBParameter<GameObject> weaponObject;
+    public BBParameter<AimPivotController> aimPivotController;
 
     [Header("Burst Settings")]
     public int burstCount = 3;
@@ -51,6 +52,10 @@ public class AttackTargetBurstAction : ActionTask
         isBursting = true;
         nextShotTime = Time.time;
         burstEndTime = Time.time + (burstCount * burstDelay) + recoveryTime;
+
+        // START AIMING
+        if (aimPivotController.value != null)
+            aimPivotController.value.BeginAim();
     }
 
     protected override void OnUpdate()
@@ -63,21 +68,30 @@ public class AttackTargetBurstAction : ActionTask
 
         RotateBodyTowardsTarget();
 
+        // Vertical aiming command
+        if (aimPivotController.value != null)
+            aimPivotController.value.SetTargetPosition(target.value.transform.position);
+
         if (isBursting)
-        {
             HandleBurstFire();
-        }
 
         if (Time.time >= burstEndTime)
-        {
             EndAction(true);
-        }
     }
+
+    protected override void OnStop()
+    {
+        // STOP AIMING
+        if (aimPivotController.value != null)
+            aimPivotController.value.EndAim();
+    }
+
+    // --------------------------------------------------------
 
     private void RotateBodyTowardsTarget()
     {
         Vector3 toTarget = target.value.transform.position - body.position;
-        toTarget.y = 0f; // HARD Y LOCK — NO VERTICAL AIM
+        toTarget.y = 0f; // horizontal only
 
         if (toTarget.sqrMagnitude < 0.001f)
             return;
@@ -100,8 +114,6 @@ public class AttackTargetBurstAction : ActionTask
         }
 
         if (shotsFired >= burstCount)
-        {
             isBursting = false;
-        }
     }
 }
